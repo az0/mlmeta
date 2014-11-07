@@ -16,7 +16,10 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+#` Export an artificial neural network to SAS
+#`
+#` @param fit a neural network fitted by nnet()
+#` @export
 nnet2sas <- function(fit)
 {
     if(!inherits(fit, c('train','nnet')))
