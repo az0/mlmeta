@@ -6,13 +6,14 @@ Date: 2014-10-29
 Author: Andrew Ziem
 Maintainer: Andrew Ziem <ahz001@gmail.com>
 Description: Functions to export models trained in R to SAS and SQL
-Depends:
+Depends: 
     R (>= 2.16)
 URL: https://github.com/az0/mlmeta
-Suggests:
+Suggests: 
     gbm,
     nnet,
-    party
+    party,
+    testthat
 License: GPL (>= 2)
 NeedsCompilation: no
 Repository: CRAN
