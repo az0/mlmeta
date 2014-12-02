@@ -70,17 +70,17 @@ btree_criteria <- function(mytree, node_id, left)
     }
 }
 
-#` Export a decision tree to SAS
-#`
-#` @param mytree a decision tree model trained by party::ctree()
-#` @param node_id the initial node (used internally)
-#` @param parent_criteria used internally
-#` @export
-#` @examples
-#` require(party)
-#` iris.ct <- ctree(Species ~ .,data = iris)
-#` iris.sas <- ctree2sas(iris.ct)
-#` cat(iris.sas)
+#' Export a decision tree to SAS
+#'
+#' @param mytree a decision tree model trained by party::ctree()
+#' @param node_id the initial node (used internally)
+#' @param parent_criteria used internally
+#' @export
+#' @examples
+#' require(party)
+#' iris.ct <- ctree(Species ~ .,data = iris)
+#' iris.sas <- ctree2sas(iris.ct)
+#' cat(iris.sas)
 ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
 {
     if (nodes(mytree, node_id)[[1]]$terminal) {

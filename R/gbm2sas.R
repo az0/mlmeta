@@ -115,11 +115,11 @@ gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 }
 
 
-#` Export a Gradient Boosted Regression Model (GBM) to SAS
-#`
-#` @param fit the model fitted by gbm::gbm()
-#` @param n.trees the number of trees to export
-#` @export
+#' Export a Gradient Boosted Regression Model (GBM) to SAS
+#'
+#' @param fit the model fitted by gbm::gbm()
+#' @param n.trees the number of trees to export
+#' @export
 gbm2sas <- function(fit, n.trees = fit$n.trees) {
     # Sanity checks
     stopifnot("gbm" == class(fit))
