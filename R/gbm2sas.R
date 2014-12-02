@@ -128,7 +128,7 @@ gbm2sas <- function(fit, n.trees = fit$n.trees) {
         stop("Missing intercept term. Use gbm() instead of gbm.fit().")
     stopifnot(fit$n.trees >= n.trees)
     stopifnot(1 == length(fit$distribution))
-    if (!fit$distribution[[1]] %in% c("guassian", "bernoulli"))
+    if (!fit$distribution[[1]] %in% c("gaussian", "bernoulli"))
         warning("only Bernoulli and Gaussian distributions have been tested")
 
     # if ('ordered' %in% unlist(types)) stop('ordered factor not supported')
