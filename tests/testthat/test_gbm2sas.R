@@ -16,6 +16,7 @@ test_that('gbm2sas returns a character',  {
     ret <- gbm2sas(gbm.fit.b)
     expect_that(ret, is_a('character'))
 
-
+    # invalid input
+    expect_that(gbm2sas(1), throws_error())
 
 })

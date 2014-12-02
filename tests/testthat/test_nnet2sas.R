@@ -9,4 +9,7 @@ test_that('nnet2sas returns a character',  {
     ret <- nnet2sas(nnet.fit)
     expect_that(ret, is_a('character'))
 
+    # invalid input
+    expect_that(nnet2sas(1), throws_error())
+
 })
