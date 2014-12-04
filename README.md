@@ -3,10 +3,10 @@ mlmeta
 
 Machine Learning Metaprogramming for R
 
-These functions export machine learning models trained in R to other programming languages, so the models can score data in a separate environment without R.  Currently base SAS is supported, and SQL is planned.
+These functions export machine learning models trained in R to other programming languages, so the models can score data in a separate environment without R.  Currently Base SAS is supported.
 
 Later I will post this package on CRAN.  Until then, use:
-````
+````r
 require(devtools)
 install_github("az0/mlmeta")
 ````
