@@ -19,8 +19,6 @@
 # Recursively descend the tree.  For internal use.
 gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 {
-	#cat(paste('debug: gbm2sas.descend(fit,', tree.n, ', ', this.node_id, ',',parent.criteria,')\n'))
-
 	# sanity checks
 	stopifnot('gbm' == class(fit))
 	stopifnot(tree.n > 0)
@@ -131,8 +129,6 @@ gbm2sas <- function(fit, n.trees = fit$n.trees) {
     if (!fit$distribution[[1]] %in% c("gaussian", "bernoulli"))
         warning("only Bernoulli and Gaussian distributions have been tested")
 
-    # if ('ordered' %in% unlist(types)) stop('ordered factor not supported')
-
     # General information
     ret <- "/* gbm2sas() */\n"
     ret <- paste(ret, "/* n.trees=", n.trees, ", interaction depth=", fit$interaction.depth,
@@ -167,15 +163,11 @@ gbm2sas <- function(fit, n.trees = fit$n.trees) {
             tree.n, " \" _all_; abort; end;\n\n", sep = "")
     }
 
-    # Sum over the trees ret <- paste(ret, 'gbm = ', fit$initF, ' + ',
-    # paste('gbm',1:n.trees, sep='', collapse=' + '), ';\n', sep='') New versions of
-    # SAS have a very compact way of writing the summation
+    # Sum over the trees
     ret <- paste(ret, "gbm = ", fit$initF, " + sum(of gbm1-gbm", n.trees, ");\n",
         sep = "")
 
-
-    # Clean up temporary variables ret <- paste(ret, 'drop ', paste('gbm',1:n.trees,
-    # sep='', collapse=' '), ';\n',sep='')
+    # Clean up temporary variables
     ret <- paste(ret, "drop gbm1-gbm", n.trees, ";\n", sep = "")
 
     # Done
