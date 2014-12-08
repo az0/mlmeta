@@ -15,4 +15,11 @@ gbm2sas(fit, n.trees = fit$n.trees, drop = TRUE)
 \description{
 Export a Gradient Boosted Regression Model (GBM) to SAS
 }
+\examples{
+require(gbm)
+mtcars.gbm <- gbm(mpg ~ cyl + disp, data = mtcars, bag.fraction = 1.1,
+    distribution = "gaussian")
+mtcars.sas <- gbm2sas(mtcars.gbm)
+cat(mtcars.sas, file='mtcars.sas')
+}
 

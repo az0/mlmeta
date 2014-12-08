@@ -19,6 +19,6 @@ Export a decision tree to SAS
 require(party)
 iris.ct <- ctree(Species ~ .,data = iris)
 iris.sas <- ctree2sas(iris.ct)
-cat(iris.sas)
+cat(iris.sas, file="iris.cat")
 }
 

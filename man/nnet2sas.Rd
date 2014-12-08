@@ -11,4 +11,13 @@ nnet2sas(fit)
 \description{
 Export an artificial neural network to SAS
 }
+\examples{
+require(nnet)
+# binary classification
+iris2 <- iris[iris$Species \%in\% c('setosa', 'versicolor'),]
+iris2$Species <- factor(iris2$Species)
+iris2.nnet <- nnet(Species ~ ., data = iris2, size = 1, trace = FALSE)
+iris2.sas <- nnet2sas(iris2.nnet)
+cat(iris2.sas, file='iris.sas')
+}
 
