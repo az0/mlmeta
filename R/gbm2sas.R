@@ -85,7 +85,7 @@ gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 		} else if ('ordered' == data.class) {
 			var.levels <- fit$var.levels[[split.rule[,'SplitVar'] + 1]] # all the variable levels
 			var.levels.left <- paste(var.levels[1:length(var.levels) < (split.code.pred +1)], collapse="','") # levels included in the left split
-			var.levels.right <- paste(var.levels[1:length(var.levels) < (split.code.pred + 1)], collapse="','") # levels included in the right split
+			var.levels.right <- paste(var.levels[1:length(var.levels) > (split.code.pred + 1)], collapse="','") # levels included in the right split
 			left.condition <- paste(split.var, ' in (\'', var.levels.left, '\')', sep='')
 			right.condition <- paste(split.var, ' in (\'', var.levels.right, '\')', sep='')
 		} else {
