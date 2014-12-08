@@ -3,12 +3,14 @@
 \alias{gbm2sas}
 \title{Export a Gradient Boosted Regression Model (GBM) to SAS}
 \usage{
-gbm2sas(fit, n.trees = fit$n.trees)
+gbm2sas(fit, n.trees = fit$n.trees, drop = TRUE)
 }
 \arguments{
 \item{fit}{the model fitted by gbm::gbm()}
 
 \item{n.trees}{the number of trees to export}
+
+\item{drop}{whether to drop the variables for the individual trees}
 }
 \description{
 Export a Gradient Boosted Regression Model (GBM) to SAS

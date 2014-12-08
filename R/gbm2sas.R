@@ -117,8 +117,9 @@ gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 #'
 #' @param fit the model fitted by gbm::gbm()
 #' @param n.trees the number of trees to export
+#' @param drop whether to drop the variables for the individual trees
 #' @export
-gbm2sas <- function(fit, n.trees = fit$n.trees) {
+gbm2sas <- function(fit, n.trees = fit$n.trees, drop = TRUE) {
     # Sanity checks
     stopifnot("gbm" == class(fit))
     data.classes <- attr(fit$Terms, "dataClasses")
@@ -168,7 +169,8 @@ gbm2sas <- function(fit, n.trees = fit$n.trees) {
         sep = "")
 
     # Clean up temporary variables
-    ret <- paste(ret, "drop gbm1-gbm", n.trees, ";\n", sep = "")
+    if (drop)
+        ret <- paste(ret, "drop gbm1-gbm", n.trees, ";\n", sep = "")
 
     # Done
     ret <- paste(ret, "\n/* End of gbm2sas() */\n", sep = "")
