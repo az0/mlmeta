@@ -14,7 +14,7 @@ Suggests:
     gbm,
     nnet,
     party,
-    testthat
+    testthat (>= 0.8)
 License: GPL (>= 2)
 NeedsCompilation: no
 Repository: CRAN
