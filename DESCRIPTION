@@ -4,6 +4,7 @@ Title: Machine Learning Metaprogramming for R
 Version: 0.1
 Date: 2014-10-29
 Author: Andrew Ziem
+Copyright: Compassion International
 Maintainer: Andrew Ziem <ahz001@gmail.com>
 Description: Functions to export models trained in R to SAS and SQL
 Depends:
