@@ -119,6 +119,13 @@ gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 #' @param n.trees the number of trees to export
 #' @param drop whether to drop the variables for the individual trees
 #' @export
+#' @examples
+#' require(gbm)
+#' mtcars.gbm <- gbm(mpg ~ cyl + disp, data = mtcars, bag.fraction = 1.1,
+#'     distribution = "gaussian")
+#' mtcars.sas <- gbm2sas(mtcars.gbm)
+#' cat(mtcars.sas, file='mtcars.sas')
+
 gbm2sas <- function(fit, n.trees = fit$n.trees, drop = TRUE) {
     # Sanity checks
     stopifnot("gbm" == class(fit))

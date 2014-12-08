@@ -80,7 +80,7 @@ btree_criteria <- function(mytree, node_id, left)
 #' require(party)
 #' iris.ct <- ctree(Species ~ .,data = iris)
 #' iris.sas <- ctree2sas(iris.ct)
-#' cat(iris.sas)
+#' cat(iris.sas, file="iris.cat")
 ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
 {
     if (nodes(mytree, node_id)[[1]]$terminal) {
