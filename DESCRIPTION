@@ -17,3 +17,4 @@ Suggests:
 License: GPL (>= 2)
 NeedsCompilation: no
 Repository: CRAN
+BugReports: https://github.com/az0/mlmeta/issues
