@@ -27,7 +27,7 @@ gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 	stopifnot(is.character(parent.criteria))
 
 	# the splitting rule
-	split.rule <- pretty.gbm.tree(fit, i.tree = tree.n)[this.node_id+1,]
+	split.rule <- gbm::pretty.gbm.tree(fit, i.tree = tree.n)[this.node_id+1,]
 	stopifnot(is.data.frame(split.rule))
 	stopifnot(dim(split.rule) ==c(1,8))
 
@@ -164,6 +164,7 @@ gbm2sas <- function(fit, n.trees = fit$n.trees, drop = TRUE) {
     ret <- paste(ret, "\n")
 
     # Loop through trees
+    require(gbm)
     for (tree.n in c(1:n.trees)) {
         this.tree <- gbm2sas.descend(fit, tree.n)
         this.tree <- substr(this.tree, 6, nchar(this.tree))  # remove the very first 'else'

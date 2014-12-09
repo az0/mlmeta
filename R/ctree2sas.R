@@ -20,19 +20,19 @@
 # get node ID for left child
 btree_left <- function(mytree, parent_id)
 {
-    nodes(mytree, parent_id)[[1]]$left$nodeID
+    party::nodes(mytree, parent_id)[[1]]$left$nodeID
 }
 
 # get right child
 btree_right <- function(mytree, parent_id)
 {
-    nodes(mytree, parent_id)[[1]]$right$nodeID
+    party::nodes(mytree, parent_id)[[1]]$right$nodeID
 }
 
 # get prediction for this node
 btree_prediction <- function(mytree, node_id)
 {
-    p <- nodes(mytree, node_id)[[1]]$prediction
+    p <- party::nodes(mytree, node_id)[[1]]$prediction
     if (2 == length(p)) {
         return(p[2])
     }
@@ -43,14 +43,14 @@ btree_prediction <- function(mytree, node_id)
 # criteria for this node as a string
 btree_criteria <- function(mytree, node_id, left)
 {
-    if (nodes(mytree, node_id)[[1]]$terminal)
+    if (party::nodes(mytree, node_id)[[1]]$terminal)
     {
         return("(error: terminal node)");
     }
-    if (nodes(mytree, node_id)[[1]]$psplit$ordered)
+    if (party::nodes(mytree, node_id)[[1]]$psplit$ordered)
     {
-        sp <- nodes(mytree, node_id)[[1]]$psplit$splitpoint
-        vn <- nodes(mytree, node_id)[[1]]$psplit$variableName
+        sp <- party::nodes(mytree, node_id)[[1]]$psplit$splitpoint
+        vn <- party::nodes(mytree, node_id)[[1]]$psplit$variableName
         if (left) {
             op <- '<='
         } else {
@@ -58,7 +58,7 @@ btree_criteria <- function(mytree, node_id, left)
         }
         return(paste(vn, op, sp))
     } else {
-        psplit <- nodes(mytree, node_id)[[1]]$psplit
+        psplit <- party::nodes(mytree, node_id)[[1]]$psplit
         if (left){
             l <- as.logical(psplit$splitpoint)
         } else {
@@ -83,7 +83,8 @@ btree_criteria <- function(mytree, node_id, left)
 #' cat(iris.sas, file="iris.cat")
 ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
 {
-    if (nodes(mytree, node_id)[[1]]$terminal) {
+    require(party)
+    if (party::nodes(mytree, node_id)[[1]]$terminal) {
         prediction <- btree_prediction(mytree, node_id)
         sprediction <- paste('else if', parent_criteria, 'then prediction =',prediction,';')
         return (sprediction)
