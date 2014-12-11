@@ -73,6 +73,7 @@ btree_criteria <- function(mytree, node_id, left)
 #' Export a decision tree to SAS
 #'
 #' @param mytree a decision tree model trained by party::ctree()
+#' @param name the name of the variable in which to store the prediction
 #' @param node_id the initial node (used internally)
 #' @param parent_criteria used internally
 #' @export
@@ -81,12 +82,12 @@ btree_criteria <- function(mytree, node_id, left)
 #' iris.ct <- ctree(Species ~ .,data = iris)
 #' iris.sas <- ctree2sas(iris.ct)
 #' cat(iris.sas, file="iris.cat")
-ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
+ctree2sas <- function(mytree, name = 'prediction', node_id = 1, parent_criteria = character(0))
 {
     require(party)
     if (party::nodes(mytree, node_id)[[1]]$terminal) {
         ret <- btree_prediction(mytree, node_id)
-        ret <- paste('else if', parent_criteria, 'then prediction =',ret,'; /* node',node_id,'*/')
+        ret <- paste('else if', parent_criteria, 'then', name,'=',ret,'; /* node',node_id,'*/')
         return (ret)
     }
 
@@ -100,13 +101,13 @@ ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
         new_criteria <- paste(parent_criteria, btree_criteria(mytree, node_id, T), sep=' and ')
         if (1 == node_id)
             new_criteria <- btree_criteria(mytree, node_id, T)
-        ret <- ctree2sas(mytree, left_node_id, new_criteria)
+        ret <- ctree2sas(mytree, name=name, node_id=left_node_id, parent_criteria=new_criteria)
     }
     if (!is.null(right_node_id)) {
         new_criteria <- paste(parent_criteria, btree_criteria(mytree, node_id, F), sep=' and ')
         if (1 == node_id)
             new_criteria <- btree_criteria(mytree, node_id, F)
-        ret <- paste(ret, ctree2sas(mytree, right_node_id, new_criteria), sep='\n')
+        ret <- paste(ret, ctree2sas(mytree, name=name, node_id=right_node_id, parent_criteria=new_criteria), sep='\n')
     }
     
     if (1 == node_id) {

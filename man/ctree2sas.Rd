@@ -3,10 +3,13 @@
 \alias{ctree2sas}
 \title{Export a decision tree to SAS}
 \usage{
-ctree2sas(mytree, node_id = 1, parent_criteria = character(0))
+ctree2sas(mytree, name = "prediction", node_id = 1,
+  parent_criteria = character(0))
 }
 \arguments{
 \item{mytree}{a decision tree model trained by party::ctree()}
+
+\item{name}{the name of the variable in which to store the prediction}
 
 \item{node_id}{the initial node (used internally)}
 
