@@ -85,8 +85,8 @@ ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
 {
     require(party)
     if (party::nodes(mytree, node_id)[[1]]$terminal) {
-        prediction <- btree_prediction(mytree, node_id)
-        ret <- paste('else if', parent_criteria, 'then prediction =',prediction,'; /* node',node_id,'*/')
+        ret <- btree_prediction(mytree, node_id)
+        ret <- paste('else if', parent_criteria, 'then prediction =',ret,'; /* node',node_id,'*/')
         return (ret)
     }
 
