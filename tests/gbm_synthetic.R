@@ -29,29 +29,7 @@ if (''==(tmpdir <- Sys.getenv('TMP')))
 setwd(tmpdir)
 writeLines(paste('writing to directory: ', getwd()))
 
-# mostly from ?gbm
-N <- 1000
-X1 <- runif(N)
-X2 <- 2*runif(N)
-X3 <- ordered(sample(letters[1:4],N,replace=TRUE),levels=letters[4:1])
-X4 <- factor(sample(letters[1:6],N,replace=TRUE))
-X5 <- factor(sample(letters[1:3],N,replace=TRUE))
-X6 <- 3*runif(N) 
-mu <- c(-1,0,1,2)[as.numeric(X3)]
-
-SNR <- 10 # signal-to-noise ratio
-Y <- X1**1.5 + 2 * (X2**.5) + mu
-sigma <- sqrt(var(Y)/SNR)
-Y <- Y + rnorm(N,0,sigma)
-
-# introduce some missing values
-X1[sample(1:N,size=100)] <- NA
-X2[sample(1:N,size=100)] <- NA
-X3[sample(1:N,size=100)] <- NA
-X4[sample(1:N,size=100)] <- NA
-X5[sample(1:N,size=100)] <- NA
-
-data <- data.frame(Y=Y,X1=X1,X2=X2,X3=X3,X4=X4,X5=X5,X6=X6)
+data <- simulate_regression_data(n = 1000, unordered_factor = TRUE, ordered_factor = TRUE)
 
 n.trees <- 100
 

@@ -1,3 +1,4 @@
 export(ctree2sas)
 export(gbm2sas)
 export(nnet2sas)
+export(simulate_regression_data)
