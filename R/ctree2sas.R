@@ -86,8 +86,8 @@ ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
     require(party)
     if (party::nodes(mytree, node_id)[[1]]$terminal) {
         prediction <- btree_prediction(mytree, node_id)
-        sprediction <- paste('else if', parent_criteria, 'then prediction =',prediction,';')
-        return (sprediction)
+        ret <- paste('else if', parent_criteria, 'then prediction =',prediction,';')
+        return (ret)
     }
 
     left_node_id <- btree_left(mytree, node_id)
@@ -96,24 +96,28 @@ ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
     if (is.null(left_node_id) != is.null(right_node_id)) {
         print('left node ID != right node id')
     }
-    sprediction <- character(0)
     if (!is.null(left_node_id)) {
         new_criteria <- paste(parent_criteria, btree_criteria(mytree, node_id, T), sep=' and ')
         if (1 == node_id)
             new_criteria <- btree_criteria(mytree, node_id, T)
-        sprediction <- ctree2sas(mytree, left_node_id, new_criteria)
+        ret <- ctree2sas(mytree, left_node_id, new_criteria)
     }
     if (!is.null(right_node_id)) {
         new_criteria <- paste(parent_criteria, btree_criteria(mytree, node_id, F), sep=' and ')
         if (1 == node_id)
             new_criteria <- btree_criteria(mytree, node_id, F)
-        sprediction <- paste(sprediction, ctree2sas(mytree, right_node_id, new_criteria), sep='\n')
+        ret <- paste(ret, ctree2sas(mytree, right_node_id, new_criteria), sep='\n')
     }
     
-    # remove the very first 'else '
-    if (1 == node_id)
-        sprediction <- substr(sprediction, 6, nchar(sprediction))
+    if (1 == node_id) {
+        # remove the very first 'else '
+        ret <- substr(ret, 6, nchar(ret))
+        
+        # add general information
+        ret <- paste("/* ctree2sas(), ", R.Version()$version.string, ", party version ", installed.packages()["party",
+            "Version"], " */\n", ret, sep = "")
+    }
     
     # return
-    return(sprediction)
+    return(ret)
 }
