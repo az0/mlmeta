@@ -109,5 +109,11 @@ ctree2sas <- function(mytree, node_id = 1, parent_criteria = character(0))
             new_criteria <- btree_criteria(mytree, node_id, F)
         sprediction <- paste(sprediction, ctree2sas(mytree, right_node_id, new_criteria), sep='\n')
     }
+    
+    # remove the very first 'else '
+    if (1 == node_id)
+        sprediction <- substr(sprediction, 6, nchar(sprediction))
+    
+    # return
     return(sprediction)
 }
