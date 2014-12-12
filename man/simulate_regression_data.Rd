@@ -4,7 +4,7 @@
 \title{Generate a Data Set for Testing Regression Models}
 \usage{
 simulate_regression_data(n = 1000, unordered_factor = TRUE,
-  ordered_factor = TRUE)
+  ordered_factor = TRUE, p_missing = 0.03)
 }
 \arguments{
 \item{n}{number of rows}
@@ -12,6 +12,8 @@ simulate_regression_data(n = 1000, unordered_factor = TRUE,
 \item{unordered_factor}{whether to include an unordered factor}
 
 \item{ordered_factor}{whether to include an ordered factor}
+
+\item{p_missing}{the percentage of each predictor to be NA}
 }
 \value{
 a data frame

@@ -11,4 +11,9 @@ test_that('simulate_regression_data',  {
     expect_that(10, equals(nrow(s2)))
     expect_that(0, equals(sum(sapply(s2, is.factor))))
     expect_that(0, equals(sum(sapply(s2, is.ordered))))
+    expect_that(0, (equals(sum(sapply(s2, is.na)))))
+    
+    s3 <- simulate_regression_data(p_missing = 0)
+    expect_that(s3, is_a('data.frame'))
+    expect_that(0, equals(sum(sapply(s3, is.na)))) 
 })

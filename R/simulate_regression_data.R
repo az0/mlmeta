@@ -2,10 +2,14 @@
 #' @param n number of rows
 #' @param unordered_factor whether to include an unordered factor
 #' @param ordered_factor whether to include an ordered factor
+#' @param p_missing the percentage of each predictor to be NA
 #' @return a data frame
 #' @author Greg Ridgeway
 #' @author Andrew Ziem
-simulate_regression_data <- function(n = 1000, unordered_factor = TRUE, ordered_factor = TRUE)
+simulate_regression_data <- function(n = 1000,
+   unordered_factor = TRUE,
+   ordered_factor = TRUE,
+   p_missing = 0.03)
 {
     stopifnot(n > 1)
 
@@ -46,7 +50,7 @@ simulate_regression_data <- function(n = 1000, unordered_factor = TRUE, ordered_
     Y <- Y.nonoise + rnorm(n,0,sigma)
 
     # introduce some missing values
-    n.missing <- round(n*.03)
+    n.missing <- round(n * p_missing)
     X1[sample(1:n, size=n.missing)] <- NA
     X2[sample(1:n, size=n.missing)] <- NA
     X3[sample(1:n, size=n.missing)] <- NA
