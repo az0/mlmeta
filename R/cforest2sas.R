@@ -18,12 +18,12 @@
 
 #' Export a random forest to SAS
 #'
-#' Generate SAS code to predict the values of a random forest from
+#' Generate SAS DATA step code to predict the values of a random forest from
 #' the \pkg{party} package.
 #' 
 #' Factors and missing values are not supported.
 #'
-#' cforest2sas averages the predictions of the trees like
+#' \code{cforest2sas} averages the predictions of the trees like
 #' \code{\link[randomForest]{randomForest}}, while \code{\link[party]{cforest}}
 #' averages observation weights.
 #'

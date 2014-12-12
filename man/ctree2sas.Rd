@@ -7,7 +7,7 @@ ctree2sas(mytree, name = "prediction", node_id = 1,
   parent_criteria = character(0))
 }
 \arguments{
-\item{mytree}{a decision tree model trained by party::ctree()}
+\item{mytree}{a decision tree model trained by \code{\link[party]{ctree}}}
 
 \item{name}{the name of the variable in which to store the prediction}
 
@@ -16,7 +16,11 @@ ctree2sas(mytree, name = "prediction", node_id = 1,
 \item{parent_criteria}{used internally}
 }
 \description{
-Export a decision tree to SAS
+Generate SAS DATA step code to predict the values of a conditional inference tree
+from the \pkg{party} package.
+}
+\details{
+Missing values and ordinal factors are not supported.
 }
 \examples{
 require(party)

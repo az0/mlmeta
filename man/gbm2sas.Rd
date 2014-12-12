@@ -6,14 +6,14 @@
 gbm2sas(fit, n.trees = fit$n.trees, drop = TRUE)
 }
 \arguments{
-\item{fit}{the model fitted by gbm::gbm()}
+\item{fit}{the model fitted by  \code{\link[gbm]{gbm}}}
 
 \item{n.trees}{the number of trees to export}
 
 \item{drop}{whether to drop the variables for the individual trees}
 }
 \description{
-Export a Gradient Boosted Regression Model (GBM) to SAS
+Generates SAS DATA step code to predict the values of a GBM model.
 }
 \examples{
 require(gbm)

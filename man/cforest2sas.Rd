@@ -13,13 +13,13 @@ cforest2sas(fit, name = "prediction", drop = TRUE)
 \item{drop}{whether to drop the variables for the individual trees}
 }
 \description{
-Generate SAS code to predict the values of a random forest from
+Generate SAS DATA step code to predict the values of a random forest from
 the \pkg{party} package.
 }
 \details{
 Factors and missing values are not supported.
 
-cforest2sas averages the predictions of the trees like
+\code{cforest2sas} averages the predictions of the trees like
 \code{\link[randomForest]{randomForest}}, while \code{\link[party]{cforest}}
 averages observation weights.
 }

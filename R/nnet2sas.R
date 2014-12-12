@@ -16,9 +16,13 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#' Export an artificial neural network to SAS
+#' Export an neural network to SAS
 #'
-#' @param fit a neural network fitted by nnet()
+#' Generates SAS DATA step code to predict the values of an artificial
+#' neural network.
+#'
+#' @param fit a neural network fitted by \code{\link[nnet]{nnet}} or 
+#'   \code{\link[caret]{train}} with \code{method="nnet"}
 #' @export
 #' @examples
 #' require(nnet)

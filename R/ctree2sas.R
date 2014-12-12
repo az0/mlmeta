@@ -72,7 +72,12 @@ btree_criteria <- function(mytree, node_id, left)
 
 #' Export a decision tree to SAS
 #'
-#' @param mytree a decision tree model trained by party::ctree()
+#' Generate SAS DATA step code to predict the values of a conditional inference tree
+#' from the \pkg{party} package.
+#'
+#' Missing values and ordinal factors are not supported.
+#'
+#' @param mytree a decision tree model trained by \code{\link[party]{ctree}}
 #' @param name the name of the variable in which to store the prediction
 #' @param node_id the initial node (used internally)
 #' @param parent_criteria used internally

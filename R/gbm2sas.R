@@ -115,7 +115,9 @@ gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 
 #' Export a Gradient Boosted Regression Model (GBM) to SAS
 #'
-#' @param fit the model fitted by gbm::gbm()
+#' Generates SAS DATA step code to predict the values of a GBM model.
+#'
+#' @param fit the model fitted by  \code{\link[gbm]{gbm}}
 #' @param n.trees the number of trees to export
 #' @param drop whether to drop the variables for the individual trees
 #' @export
