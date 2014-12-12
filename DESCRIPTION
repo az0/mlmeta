@@ -1,12 +1,15 @@
 Package: mlmeta
 Type: Package
-Title: Machine Learning Metaprogramming for R
+Title: Machine Learning Metaprogramming
 Version: 0.1
-Date: 2014-10-29
+Date: 2014-12-12
 Author: Andrew Ziem
 Copyright: Compassion International
 Maintainer: Andrew Ziem <ahz001@gmail.com>
-Description: Functions to export models trained in R to SAS
+Description: Generates Base SAS code to score models learned in R.  Supports
+    artificial neural networks, conditional inference trees, random forests,
+    and gradient boosting regression models.  The SAS code often runs faster
+    than R, uses less memory, and does not require SAS/STAT or SAS/IML.
 Depends:
     R (>= 2.16)
 URL: https://github.com/az0/mlmeta
