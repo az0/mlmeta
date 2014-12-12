@@ -84,9 +84,9 @@ btree_criteria <- function(mytree, node_id, left)
 #' @export
 #' @examples
 #' require(party)
-#' iris.ct <- ctree(Species ~ .,data = iris)
+#' iris.ct <- ctree(Species ~ . , data = iris)
 #' iris.sas <- ctree2sas(iris.ct)
-#' cat(iris.sas, file="iris.cat")
+#' cat(iris.sas, file="iris.sas")
 ctree2sas <- function(mytree, name = 'prediction', node_id = 1, parent_criteria = character(0))
 {
     require(party)

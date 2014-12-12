@@ -24,8 +24,8 @@ Missing values and ordinal factors are not supported.
 }
 \examples{
 require(party)
-iris.ct <- ctree(Species ~ .,data = iris)
+iris.ct <- ctree(Species ~ . , data = iris)
 iris.sas <- ctree2sas(iris.ct)
-cat(iris.sas, file="iris.cat")
+cat(iris.sas, file="iris.sas")
 }
 
