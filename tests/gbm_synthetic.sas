@@ -59,7 +59,7 @@ data check;
 	set synthetic2;
 	%do i = 1 %to &n_trees;
 		diff_pred_&i = abs(r_pred_&i - gbm&i);
-		if diff_pred_&i > &max_diff then put 'ERROR: ' _N_= diff_pred_all=;
+		if diff_pred_&i > &max_diff then put 'ERROR: ' _N_= diff_pred_&i=;
 	%end;
 	diff_pred_all = abs(sas_pred_all - r_pred_all);
 	if diff_pred_all > &max_diff then put 'ERROR: ' _N_= diff_pred_all=;
