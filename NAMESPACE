@@ -1,5 +1,6 @@
 export(cforest2sas)
 export(ctree2sas)
+export(earth2sas)
 export(gbm2sas)
 export(nnet2sas)
 export(simulate_regression_data)

@@ -8,12 +8,14 @@ Copyright: Compassion International
 Maintainer: Andrew Ziem <ahz001@gmail.com>
 Description: Generates Base SAS code to score models learned in R.  Supports
     artificial neural networks, conditional inference trees, random forests,
-    and gradient boosting regression models.  The SAS code often runs faster
-    than R, uses less memory, and does not require SAS/STAT or SAS/IML.
+    gradient boosting regression models, and multivariate adaptive regression
+    splines. The SAS code often runs faster than R, uses less memory, and does
+    not require SAS/STAT or SAS/IML.
 Depends:
     R (>= 2.16)
 URL: https://github.com/az0/mlmeta
 Suggests:
+    earth,
     gbm,
     nnet,
     party,
