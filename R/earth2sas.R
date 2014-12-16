@@ -41,7 +41,7 @@ earth2sas <- function(fit, name = 'prediction')
         stop('fit must be of type earth')
 
     require(earth)
-    ret <- paste(name, ' = ', format(fit, style="max"), ';\n')
+    ret <- paste(name, ' = ', format(fit, style="max", digits=12), ';\n')
 
     ret
 }
