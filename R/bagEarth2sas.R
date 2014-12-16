@@ -49,7 +49,7 @@ bagEarth2sas <- function(fit, name = 'prediction', drop = TRUE)
         ret <- paste(ret, earth2sas(fit$fit[[1]], name_b), sep='\n')
     }
 
-    ret <- paste(ret, name, ' = sum(of ',name,'_1-',B,');\n', sep='')
+    ret <- paste(ret, name, ' = mean(of ',name,'_1-',name,'_',B,');\n', sep='')
 
     if (drop)
         ret <- paste(ret, '\ndrop ',name,'_1-',name,'_',B,';\n',sep='')
