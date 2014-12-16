@@ -6,7 +6,8 @@
 earth2sas(fit, name = "prediction")
 }
 \arguments{
-\item{fit}{a MARS model trained by \code{\link[earth]{earth}}}
+\item{fit}{a MARS model trained by \code{\link[earth]{earth}}.  It may
+be tuned using \code{\link[caret]{train}}.}
 
 \item{name}{the name of the variable in which to store the prediction}
 }

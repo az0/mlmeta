@@ -23,7 +23,8 @@
 #' Generate SAS DATA step code to predict the values of a Multivariate
 #' Adaptive Regression Splines (MARS) model from the \pkg{earth} package.
 #'
-#' @param fit a MARS model trained by \code{\link[earth]{earth}}
+#' @param fit a MARS model trained by \code{\link[earth]{earth}}.  It may
+#' be tuned using \code{\link[caret]{train}}.
 #' @param name the name of the variable in which to store the prediction
 #' @export
 #' @examples
@@ -33,6 +34,9 @@
 #' cat(trees.sas, file="trees.sas")
 earth2sas <- function(fit, name = 'prediction')
 {
+    if (inherits(fit, 'train'))
+        # tuned using the caret package
+        fit <- fit$finalModel
     if (!inherits(fit, 'earth'))
         stop('fit must be of type earth')
 

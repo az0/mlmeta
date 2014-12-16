@@ -15,6 +15,7 @@ Depends:
     R (>= 2.16)
 URL: https://github.com/az0/mlmeta
 Suggests:
+    caret,
     earth,
     gbm,
     nnet,
