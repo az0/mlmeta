@@ -1,3 +1,4 @@
+export(bagEarth2sas)
 export(cforest2sas)
 export(ctree2sas)
 export(earth2sas)
