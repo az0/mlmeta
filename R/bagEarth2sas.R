@@ -46,7 +46,7 @@ bagEarth2sas <- function(fit, name = 'prediction', drop = TRUE)
     ret <- character(0)
     for (b in 1:B) {
         name_b <- paste(name, '_', b, sep='')
-        ret <- paste(ret, earth2sas(fit$fit[[1]], name_b), sep='\n')
+        ret <- paste(ret, earth2sas(fit$fit[[b]], name_b), sep='\n')
     }
 
     ret <- paste(ret, name, ' = mean(of ',name,'_1-',name,'_',B,');\n', sep='')
