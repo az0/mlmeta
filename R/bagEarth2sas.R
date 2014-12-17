@@ -31,7 +31,7 @@
 #' @examples
 #' require(caret)
 #' trees.bagEarth <- bagEarth(Volume ~ ., data=trees, B=2)
-#' trees.sas <- bagEarth2sas(trees.earth)
+#' trees.sas <- bagEarth2sas(trees.bagEarth)
 #' cat(trees.sas, file="trees.sas")
 bagEarth2sas <- function(fit, name = 'prediction', drop = TRUE)
 {

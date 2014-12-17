@@ -20,7 +20,7 @@ Adaptive Regression Splines (MARS) model from the \pkg{caret} package.
 \examples{
 require(caret)
 trees.bagEarth <- bagEarth(Volume ~ ., data=trees, B=2)
-trees.sas <- bagEarth2sas(trees.earth)
+trees.sas <- bagEarth2sas(trees.bagEarth)
 cat(trees.sas, file="trees.sas")
 }
 
