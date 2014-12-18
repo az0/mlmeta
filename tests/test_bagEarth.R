@@ -23,23 +23,35 @@
 require(mlmeta)
 require(caret)
 
-# store .sas and .csv files in temporary folder
-if (''==(tmpdir <- Sys.getenv('TMP')))
-    tmpdir <- '/tmp'
-setwd(tmpdir)
-writeLines(paste('writing to directory: ', getwd()))
+on_cran <- Sys.getenv('NOT_CRAN') != ''
 
-data <- simulate_regression_data(n = 1000,
+# store .sas and .csv files in temporary folder
+if (!on_cran) {
+    if (''==(tmpdir <- Sys.getenv('TMP')))
+        tmpdir <- '/tmp'
+    setwd(tmpdir)
+    writeLines(paste('writing to directory: ', getwd()))
+}
+
+if (on_cran) {
+    # run faster on CRAN
+    n = 100
+    B = 2
+} else {
+    n = 1000
+    B = 10
+}
+
+data <- simulate_regression_data(n = n,
     unordered_factor = FALSE,
     ordered_factor = FALSE,
     p_missing = 0)
 
-B <- 10
-
 fit <- caret::bagEarth(Y ~ . , data=data, B=B)
 
 code <- bagEarth2sas(fit, drop=FALSE)
-cat(code, file='bagEarth.sas')
+if (!on_cran)
+    cat(code, file='bagEarth.sas')
 
 # bagged earth prediction
 r_pred_all <- predict(fit)
@@ -51,4 +63,5 @@ names(r_pred_individual) <- paste0('r_pred_',1:B)
 
 # export
 export <- data.frame(data, r_pred_all, r_pred_individual)
-write.csv(export, 'bagEarth.csv', row.names=FALSE, na="")
+if (!on_cran)
+    write.csv(export, 'bagEarth.csv', row.names=FALSE, na="")
