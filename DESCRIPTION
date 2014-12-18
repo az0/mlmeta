@@ -19,7 +19,7 @@ Suggests:
     earth,
     gbm,
     nnet,
-    party,
+    party (>= 1.0-19),
     testthat (>= 0.8)
 License: GPL (>= 2)
 NeedsCompilation: no
