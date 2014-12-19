@@ -4,7 +4,7 @@
 * win-builder
 
 ## R CMD check results
-* functionality requires importing the unexported object party:::prettytree
+* no notes
 * no errors
 * no warnings
 

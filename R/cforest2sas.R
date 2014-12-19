@@ -48,7 +48,7 @@ cforest2sas <- function(fit, name = 'prediction', drop = TRUE)
             "Version"], " */\n", sep = "")
     for (n.tree in 1:n.trees) {
         one_tree <- new("BinaryTree")
-        one_tree@tree <- party:::prettytree(fit@ensemble[[n.tree]], names(fit@data@get("input")))
+        one_tree@tree <- party::prettytree(fit@ensemble[[n.tree]], names(fit@data@get("input")))
         tree_name <- paste(name, '_', n.tree, sep='')
         one_tree.sas <- ctree2sas(one_tree, name = tree_name)
         ret <- paste(ret, paste('/* tree', n.tree,'*/', sep=''), one_tree.sas, sep='\n')
