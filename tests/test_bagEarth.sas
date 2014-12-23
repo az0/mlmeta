@@ -40,7 +40,7 @@ x "cd %sysget(TMP)";
 
 * Import data from R.;
 proc import
-	datafile="bagEarth.csv"
+	datafile="mlmeta_bagEarth_reg.csv"
 	out=bagEarth
 	dbms=csv
 	replace;
@@ -49,7 +49,7 @@ run;
 * This is analogous to predict() in R.;
 data bagEarth;
 	set bagEarth;
-	%include "bagEarth.sas" / nosource nosource2 lrecl=100000;
+	%include "mlmeta_bagEarth_reg.sas" / nosource nosource2 lrecl=100000;
 run;      
 
 

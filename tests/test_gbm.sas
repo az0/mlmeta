@@ -22,7 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 * This should match the number of trees in R.;
-%let n_trees = 100;
+%let n_trees = 10;
 
 * The maximum acceptable difference.;
 %let max_diff = 1e-10;
@@ -40,23 +40,23 @@ x "cd %sysget(TMP)";
 
 * Import data from R.;
 proc import
-	datafile="synthetic.csv"
-	out=synthetic
+	datafile="mlmeta_gbm_reg.csv"
+	out=gbm
 	dbms=csv
 	replace;
 run;
 
 * This is analogous to predict.gbm() in R.;
-data synthetic2;
-	set synthetic;
-	%include "synthetic.sas" /nosource nosource2 lrecl=100000;
+data gbm2;
+	set gbm;
+	%include "mlmeta_gbm_reg.sas" /nosource nosource2 lrecl=100000;
 	sas_pred_all = gbm;
 run;      
 
 * Check that both the individual trees and final prediction match.;
 %macro check;
 data check;
-	set synthetic2;
+	set gbm2;
 	%do i = 1 %to &n_trees;
 		diff_pred_&i = abs(r_pred_&i - gbm&i);
 		if diff_pred_&i > &max_diff then put 'ERROR: ' _N_= diff_pred_&i=;
