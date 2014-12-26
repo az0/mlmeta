@@ -44,7 +44,7 @@ test_setwd <- function() {
 
 #' A generic function for testing functions that generate SAS code
 test_foo2sas <- function(name, pkg, data_func, model_func, ml_func, predict_funct) {
-    writeLines(paste('testing package ', pkg))
+    writeLines(paste('testing',name,'from package', pkg))
     if (on_cran()) {
         writeLines(paste('skipping test on CRAN: ', pkg))
         return
