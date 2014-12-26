@@ -107,6 +107,18 @@ test_foo2sas('ctree_reg', 'party',
     function(fit, newdata) { as.numeric(predict(fit)) })
 
 
+
+###
+### test earth
+###
+
+test_foo2sas('earth_reg', 'earth',
+    function() { simulate_regression_data(unordered_factor = FALSE, ordered_factor = FALSE, p_missing = 0) },
+    function(data) { earth(Y ~ ., data=data) },
+    earth2sas,
+    function(fit, newdata) { as.numeric(predict(fit)) })
+
+
 ###
 ### test GBM
 ###

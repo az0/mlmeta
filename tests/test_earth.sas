@@ -37,7 +37,7 @@ x "cd %sysget(TMP)";
 
 * Import data from R.;
 proc import
-	datafile="earth.csv"
+	datafile="mlmeta_earth_reg.csv"
 	out=earth
 	dbms=csv
 	replace;
@@ -46,14 +46,14 @@ run;
 * This is analogous to predict() in R.;
 data earth;
 	set earth;
-	%include "earth.sas" / nosource nosource2 lrecl=100000;
+	%include "mlmeta_earth_reg.sas" / nosource nosource2 lrecl=100000;
 run;      
 
 * Compare;
 data earth;
 	set earth;
 	if not missing(prediction) then do;
-		difference_prediction = abs(prediction - r_pred);
+		difference_prediction = abs(prediction - pred);
 		if difference_prediction > &max_diff then put 'ERROR: ' _N_= difference_prediction=;
 		end;
 	else
