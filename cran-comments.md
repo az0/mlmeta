@@ -10,3 +10,6 @@
 
 ## Downstream dependencies
 * None
+
+## Fixes since last commit
+* R CMD CHECK no longer leaves files in /tmp/
