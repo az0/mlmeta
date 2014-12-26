@@ -37,7 +37,7 @@ x "cd %sysget(TMP)";
 
 * Import data from R.;
 proc import
-	datafile="cforest.csv"
+	datafile="mlmeta_cforest_reg.csv"
 	out=cforest
 	dbms=csv
 	replace;
@@ -46,13 +46,13 @@ run;
 * This is analogous to predict() in R.;
 data cforest;
 	set cforest;
-	%include "cforest.sas" / nosource nosource2 lrecl=100000;
+	%include "mlmeta_cforest_reg.sas" / nosource nosource2 lrecl=100000;
 run;      
 
 data cforest;
 	set cforest;
 	if not missing(prediction) then do;
-		difference_prediction = abs(prediction - r_pred);
+		difference_prediction = abs(prediction - pred);
 		if difference_prediction > &max_diff then put 'ERROR: ' _N_= difference_prediction=;
 		end;
 	else
@@ -63,4 +63,9 @@ run;
 * Show the largest differences first.;
 proc sort data=cforest;
 	by descending difference_prediction;
+run;
+
+* Summarize the differences.;
+proc means data=cforest;
+	var y difference_prediction;
 run;

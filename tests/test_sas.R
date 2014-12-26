@@ -85,6 +85,27 @@ test_foo2sas('bagEarth_reg', 'caret',
     function(fit) { bagEarth2sas(fit, drop = FALSE) },
     test_bagEarth_predict)
 
+###
+### test cforest
+###
+
+test_foo2sas('cforest_reg', 'party',
+    function() { simulate_regression_data(unordered_factor = FALSE, ordered_factor = FALSE, p_missing = 0) },
+    function(data) { party::cforest(Y ~ ., data = data, controls = cforest_unbiased(ntree=5)) },
+    function(fit) { cforest2sas(fit, drop = FALSE) },
+    function(fit, newdata) { as.numeric(predict(fit)) })
+
+###
+### test ctree
+###
+
+
+test_foo2sas('ctree_reg', 'party',
+    function() { simulate_regression_data(unordered_factor = TRUE, ordered_factor = FALSE, p_missing = 0) },
+    function(data) { party::ctree(Y ~ ., data = data, controls = ctree_control(mincriterion = 0)) },
+    ctree2sas,
+    function(fit, newdata) { as.numeric(predict(fit)) })
+
 
 ###
 ### test GBM

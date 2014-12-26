@@ -37,7 +37,7 @@ x "cd %sysget(TMP)";
 
 * Import data from R.;
 proc import
-	datafile="ctree.csv"
+	datafile="mlmeta_ctree_reg.csv"
 	out=ctree
 	dbms=csv
 	replace;
@@ -46,13 +46,13 @@ run;
 * This is analogous to predict() in R.;
 data ctree;
 	set ctree;
-	%include "ctree.sas" / nosource nosource2 lrecl=100000;
+	%include "mlmeta_ctree_reg.sas" / nosource nosource2 lrecl=100000;
 run;      
 
 data ctree;
 	set ctree;
 	if not missing(prediction) then do;
-		difference_prediction = abs(prediction - r_pred);
+		difference_prediction = abs(prediction - pred);
 		if difference_prediction > &max_diff then put 'ERROR: ' _N_= difference_prediction=;
 		end;
 	else
