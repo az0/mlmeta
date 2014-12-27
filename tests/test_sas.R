@@ -25,7 +25,7 @@ require(mlmeta)
 #' Indicate whether tests are running on CRAN
 #' @return boolean
 on_cran <- function() {
-    Sys.getenv('NOT_CRAN') != ''
+    '' == Sys.getenv('NOT_CRAN')
 }
 
 #' Set the working directory for testing purposes
@@ -35,7 +35,7 @@ on_cran <- function() {
 test_setwd <- function() {
     # On CRAN do not use a temporary directory because (1) CRAN
     # policies forbid writing to /tmp and (2) CRAN does not have SAS.
-    if (on_cran()) return()
+    if (on_cran()) return(invisible())
     if (''==(tmpdir <- Sys.getenv('TMP')))
         tmpdir <- '/tmp'
     setwd(tmpdir)
@@ -46,8 +46,8 @@ test_setwd <- function() {
 test_foo2sas <- function(name, pkg, data_func, model_func, ml_func, predict_funct) {
     writeLines(paste('testing',name,'from package', pkg))
     if (on_cran()) {
-        writeLines(paste('skipping test on CRAN: ', pkg))
-        return
+        writeLines(paste('skipping test on CRAN: ', name))
+        return(invisible())
     }
     test_setwd()
     library(pkg, character.only=TRUE)
