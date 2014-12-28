@@ -23,6 +23,10 @@
 #' Generate SAS DATA step code to predict the values of a Multivariate
 #' Adaptive Regression Splines (MARS) model from the \pkg{earth} package.
 #'
+#' This function supports only regression with numeric variables, so any
+#' factors must fist be converted to numeric variables (as
+#' \code{\link[caret]{train}} normally does).
+#'
 #' @param fit a MARS model trained by \code{\link[earth]{earth}}.  It may
 #' be tuned using \code{\link[caret]{train}}.
 #' @param name the name of the variable in which to store the prediction

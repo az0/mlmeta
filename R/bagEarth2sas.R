@@ -22,11 +22,14 @@
 #'
 #' Generate SAS DATA step code to predict the values of a bagged Multivariate
 #' Adaptive Regression Splines (MARS) model from the \pkg{caret} package.
+#
+#' This function supports only regression with numeric variables, so any
+#' factors must fist be converted to numeric variables (as
+#' \code{\link[caret]{train}} normally does).
 #'
 #' @param fit a bagged MARS model trained by \code{\link[caret]{bagEarth}}.
 #' @param name the name of the variable in which to store the prediction
 #' @param drop whether to drop the variables for the individual trees
-
 #' @export
 #' @examples
 #' require(caret)

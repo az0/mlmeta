@@ -117,6 +117,11 @@ gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 #'
 #' Generates SAS DATA step code to predict the values of a GBM model.
 #'
+#' This function supports unordered factors, ordered factors, and missing
+#' values.  No special considerations are needed for the Gaussian distribution,
+#' and for other distributions, the user is responsible for the link
+#' function in SAS.
+#'
 #' @param fit the model fitted by  \code{\link[gbm]{gbm}}
 #' @param n.trees the number of trees to export
 #' @param drop whether to drop the variables for the individual trees

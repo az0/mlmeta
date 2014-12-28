@@ -16,6 +16,12 @@ gbm2sas(fit, n.trees = fit$n.trees, drop = TRUE)
 \description{
 Generates SAS DATA step code to predict the values of a GBM model.
 }
+\details{
+This function supports unordered factors, ordered factors, and missing
+values.  No special considerations are needed for the Gaussian distribution,
+and for other distributions, the user is responsible for the link
+function in SAS.
+}
 \examples{
 require(gbm)
 mtcars.gbm <- gbm(mpg ~ cyl + disp, data = mtcars, bag.fraction = 1.1,

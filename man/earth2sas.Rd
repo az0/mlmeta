@@ -16,6 +16,11 @@ be tuned using \code{\link[caret]{train}}.}
 Generate SAS DATA step code to predict the values of a Multivariate
 Adaptive Regression Splines (MARS) model from the \pkg{earth} package.
 }
+\details{
+This function supports only regression with numeric variables, so any
+factors must fist be converted to numeric variables (as
+\code{\link[caret]{train}} normally does).
+}
 \examples{
 require(earth)
 trees.earth <- earth(Volume ~ ., data=trees)

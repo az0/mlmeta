@@ -21,7 +21,8 @@ Generate SAS DATA step code to predict the values of a conditional inference tre
 from the \pkg{party} package.
 }
 \details{
-Missing values and ordinal factors are not supported.
+Unordered factors are supported, while ordered factors and missing values are
+not supported.
 }
 \examples{
 require(party)

@@ -75,7 +75,8 @@ btree_criteria <- function(mytree, node_id, left)
 #' Generate SAS DATA step code to predict the values of a conditional inference tree
 #' from the \pkg{party} package.
 #'
-#' Missing values and ordinal factors are not supported.
+#' Unordered factors are supported, while ordered factors and missing values are
+#' not supported.
 #'
 #' @param mytree a decision tree model trained by \code{\link[party]{ctree}}
 #' @param name the name of the variable in which to store the prediction

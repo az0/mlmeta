@@ -18,7 +18,8 @@ Generate SAS DATA step code to predict the values of a random forest from
 the \pkg{party} package.
 }
 \details{
-Factors and missing values are not supported.
+Unordered factors are supported, while ordered factors and missing values are
+not supported.
 
 \code{cforest2sas} averages the predictions of the trees like
 \code{\link[randomForest]{randomForest}}, while \code{\link[party]{cforest}}
