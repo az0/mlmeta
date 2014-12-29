@@ -60,6 +60,14 @@ test_foo2sas <- function(name, pkg, data_func, model_func, ml_func, predict_func
     write.csv(export, paste('mlmeta_',name,'.csv',sep = ''), row.names = FALSE, na = "")
 }
 
+#' Simulate classification data
+simulate_classification_data <- function(n=1000) {
+    library(caret)
+    dat <- twoClassSim(n=n, linearVars=3)
+    names(dat)[names(dat)=="Class"] <- "Y"
+    dat
+}
+
 ###
 ### test bagEarth
 ###
@@ -115,6 +123,18 @@ test_foo2sas('ctree_reg', 'party',
 test_foo2sas('earth_reg', 'earth',
     function() { simulate_regression_data(unordered_factor = FALSE, ordered_factor = FALSE, p_missing = 0) },
     function(data) { earth(Y ~ ., data=data) },
+    earth2sas,
+    function(fit, newdata) { as.numeric(predict(fit)) })
+
+test_foo2sas('earth_reg_interaction', 'earth',
+    function() { simulate_regression_data(unordered_factor = FALSE, ordered_factor = FALSE, p_missing = 0) },
+    function(data) { earth(Y ~ ., data = data, degree = 2) },
+    earth2sas,
+    function(fit, newdata) { as.numeric(predict(fit)) })
+    
+test_foo2sas('earth_class', 'earth',
+    simulate_classification_data,
+    function(data) { earth(Y ~ ., data=data, glm=list(family=binomial)) },
     earth2sas,
     function(fit, newdata) { as.numeric(predict(fit)) })
 

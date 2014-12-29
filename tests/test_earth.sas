@@ -35,23 +35,32 @@ x "cd %sysget(TMP)";
 %mend;
 %setwd;
 
+
+%macro test_earth(code);
+* Remove any data from the last macro call.;
+proc datasets lib=work noprint;
+	delete &code;
+run;
+
 * Import data from R.;
 proc import
-	datafile="mlmeta_earth_reg.csv"
-	out=earth
+	datafile="mlmeta_&code..csv"
+	out=&code
 	dbms=csv
 	replace;
 run;
+%if &syserr ne 0 %then %abort cancel;
 
 * This is analogous to predict() in R.;
-data earth;
-	set earth;
-	%include "mlmeta_earth_reg.sas" / nosource nosource2 lrecl=100000;
-run;      
+data &code;
+	set &code;
+	%include "mlmeta_&code..sas" / nosource nosource2 lrecl=100000;
+run;
+%if &syserr ne 0 %then %abort cancel;
 
 * Compare;
-data earth;
-	set earth;
+data &code;
+	set &code;
 	if not missing(prediction) then do;
 		difference_prediction = abs(prediction - pred);
 		if difference_prediction > &max_diff then put 'ERROR: ' _N_= difference_prediction=;
@@ -65,3 +74,8 @@ run;
 proc sort data=earth;
 	by descending difference_prediction;
 run;
+%mend;
+
+%test_earth(earth_reg);
+%test_earth(earth_reg_interaction);
+%test_earth(earth_class);

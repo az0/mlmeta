@@ -23,9 +23,15 @@
 #' Generate SAS DATA step code to predict the values of a Multivariate
 #' Adaptive Regression Splines (MARS) model from the \pkg{earth} package.
 #'
-#' This function supports only regression with numeric variables, so any
-#' factors must fist be converted to numeric variables (as
-#' \code{\link[caret]{train}} normally does).
+#' This function supports regression and classification (when
+#' \code{\link[earth]{earth}} is called with \code{glm=list(family=binomial)}.
+#' In the latter case, it is the responsibility of the user to convert
+#' from log-odds to probabilities, if desired.
+#' 
+#' This function supports only numeric variables, so any factors must fist be
+#' converted to numeric variables (as \code{\link[caret]{train}} normally does).
+#'
+#' Interactions (\code{degree > 1)} are supported.
 #'
 #' @param fit a MARS model trained by \code{\link[earth]{earth}}.  It may
 #' be tuned using \code{\link[caret]{train}}.
@@ -45,7 +51,7 @@ earth2sas <- function(fit, name = 'prediction')
         stop('fit must be of type earth')
 
     require(earth)
-    ret <- paste(name, ' = ', format(fit, style="max", digits=12), ';\n')
+    ret <- paste(name, ' = ', format(fit, style="max", digits=15), ';\n')
 
     ret
 }
