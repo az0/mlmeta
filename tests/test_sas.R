@@ -149,4 +149,18 @@ test_foo2sas('gbm_reg', 'gbm',
     test_gbm_predict)
 
 
+###
+### CRAN does not allow writing "anywhere else on the file system apart
+### from the R session’s temporary directory"
+###
 
+library(testthat)
+if (on_cran()) {
+    expect_equal(length(Sys.glob('~/mlmeta*csv')), 0)
+    expect_equal(length(Sys.glob('~/mlmeta*sas')), 0)
+    expect_equal(length(Sys.glob('/tmp/mlmeta*csv')), 0)
+    expect_equal(length(Sys.glob('/tmp/mlmeta*sas')), 0)
+} else {
+    expect_more_than(length(Sys.glob('mlmeta*csv')), 0)
+    expect_more_than(length(Sys.glob('mlmeta*sas')), 0)
+}
