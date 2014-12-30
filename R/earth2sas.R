@@ -23,12 +23,10 @@
 #' Generate SAS DATA step code to predict the values of a Multivariate
 #' Adaptive Regression Splines (MARS) model from the \pkg{earth} package.
 #'
-#' This function supports regression and classification (when
+#' This function supports regression and binary classification (when
 #' \code{\link[earth]{earth}} is called with \code{glm=list(family=binomial)}.
-#' In the latter case, it is the responsibility of the user to convert
-#' from log-odds to probabilities, if desired.
 #' 
-#' This function supports only numeric variables, so any factors must fist be
+#' This function supports only numeric variables, so any factors must first be
 #' converted to numeric variables (as \code{\link[caret]{train}} normally does).
 #'
 #' Interactions (\code{degree > 1)} are supported.
@@ -36,13 +34,15 @@
 #' @param fit a MARS model trained by \code{\link[earth]{earth}}.  It may
 #' be tuned using \code{\link[caret]{train}}.
 #' @param name the name of the variable in which to store the prediction
+#' @param type For classification models \code{type=link} gives log-odds, while
+#'  \code{type=response} gives probabilities.
 #' @export
 #' @examples
 #' require(earth)
 #' trees.earth <- earth(Volume ~ ., data=trees)
 #' trees.sas <- earth2sas(trees.earth)
 #' cat(trees.sas, file="trees.sas")
-earth2sas <- function(fit, name = 'prediction')
+earth2sas <- function(fit, name='prediction', type='link')
 {
     if (inherits(fit, 'train'))
         # tuned using the caret package
@@ -52,6 +52,8 @@ earth2sas <- function(fit, name = 'prediction')
 
     require(earth)
     ret <- paste(name, ' = ', format(fit, style="max", digits=15), ';\n')
+    if ('response' == type)
+        ret <- paste(ret, name, '= 1/(1+exp(min(max(-(',name,'),-500),500)));\n', sep='')
 
     ret
 }

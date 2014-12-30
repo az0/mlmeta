@@ -78,4 +78,5 @@ run;
 
 %test_earth(earth_reg);
 %test_earth(earth_reg_interaction);
-%test_earth(earth_class);
+%test_earth(earth_class_link);
+%test_earth(earth_class_response);

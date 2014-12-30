@@ -132,11 +132,17 @@ test_foo2sas('earth_reg_interaction', 'earth',
     earth2sas,
     function(fit, newdata) { as.numeric(predict(fit)) })
     
-test_foo2sas('earth_class', 'earth',
+test_foo2sas('earth_class_link', 'earth',
     simulate_classification_data,
     function(data) { earth(Y ~ ., data=data, glm=list(family=binomial)) },
     earth2sas,
     function(fit, newdata) { as.numeric(predict(fit)) })
+
+test_foo2sas('earth_class_response', 'earth',
+    simulate_classification_data,
+    function(data) { earth(Y ~ ., data=data, glm=list(family=binomial)) },
+    function(fit) { earth2sas(fit, type="response") },
+    function(fit, newdata) { as.numeric(predict(fit, type="response")) })
 
 
 ###

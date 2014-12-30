@@ -4,25 +4,26 @@
 \alias{earth2sas}
 \title{Export a MARS model to SAS}
 \usage{
-earth2sas(fit, name = "prediction")
+earth2sas(fit, name = "prediction", type = "link")
 }
 \arguments{
 \item{fit}{a MARS model trained by \code{\link[earth]{earth}}.  It may
 be tuned using \code{\link[caret]{train}}.}
 
 \item{name}{the name of the variable in which to store the prediction}
+
+\item{type}{For classification models \code{type=link} gives log-odds, while
+\code{type=response} gives probabilities.}
 }
 \description{
 Generate SAS DATA step code to predict the values of a Multivariate
 Adaptive Regression Splines (MARS) model from the \pkg{earth} package.
 }
 \details{
-This function supports regression and classification (when
+This function supports regression and binary classification (when
 \code{\link[earth]{earth}} is called with \code{glm=list(family=binomial)}.
-In the latter case, it is the responsibility of the user to convert
-from log-odds to probabilities, if desired.
 
-This function supports only numeric variables, so any factors must fist be
+This function supports only numeric variables, so any factors must first be
 converted to numeric variables (as \code{\link[caret]{train}} normally does).
 
 Interactions (\code{degree > 1)} are supported.
