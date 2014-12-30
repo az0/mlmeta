@@ -71,7 +71,7 @@ data &code;
 run;
 
 * Show the largest differences first.;
-proc sort data=earth;
+proc sort data=&code;
 	by descending difference_prediction;
 run;
 %mend;
