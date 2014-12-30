@@ -22,7 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 * The maximum acceptable difference.;
-%let max_diff = 1e-10;
+%let max_diff = 1e-12;
 
 * Number of bootstrap samples (must match the value B in R).;
 %let B = 10;
