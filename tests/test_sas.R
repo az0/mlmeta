@@ -20,7 +20,8 @@
 # Create a model and data to check that gbm gives the same
 # values in R and SAS.
 
-require(mlmeta)
+library(mlmeta)
+library(testthat)
 
 #' Indicate whether tests are running on CRAN
 #' @return boolean
@@ -43,7 +44,13 @@ test_setwd <- function() {
 }
 
 #' A generic function for testing functions that generate SAS code
-test_foo2sas <- function(name, pkg, data_func, model_func, ml_func, predict_funct) {
+test_foo2sas <- function(name, pkg, data_func, model_func, ml_func, predict_func) {
+    expect_is(name, 'character')
+    expect_is(pkg, 'character')
+    expect_is(data_func, 'function')
+    expect_is(model_func, 'function')
+    expect_is(ml_func, 'function')
+    expect_is(predict_func, 'function')
     writeLines(paste('testing',name,'from package', pkg))
     if (on_cran()) {
         writeLines(paste('skipping test on CRAN: ', name))
@@ -52,11 +59,24 @@ test_foo2sas <- function(name, pkg, data_func, model_func, ml_func, predict_func
     test_setwd()
     library(pkg, character.only=TRUE)
     data <- data_func()
+    expect_is(data, 'data.frame')
+
+    # fit the model
     fit <- model_func(data)
-    sas_code = ml_func(fit)
+
+    # metaprogram
+    sas_code <- ml_func(fit)
+    expect_is(sas_code, 'character')
+    expect_more_than(nchar(sas_code), 10)
     cat(sas_code, file = paste('mlmeta_', name, '.sas', sep = ''))
-    pred <- predict_funct(fit, newdata=data)
+
+    # predict in R
+    pred <- predict_func(fit, newdata=data)
+    expect_true(class(pred) %in% c('data.frame', 'numeric'))
+
+    # export
     export <- data.frame(data, pred)
+    expect_more_than(nrow(export), 10)
     write.csv(export, paste('mlmeta_',name,'.csv',sep = ''), row.names = FALSE, na = "")
 }
 
@@ -180,7 +200,6 @@ test_foo2sas('gbm_reg', 'gbm',
 ### from the R session’s temporary directory"
 ###
 
-library(testthat)
 if (on_cran()) {
     expect_equal(length(Sys.glob('~/mlmeta*csv')), 0)
     expect_equal(length(Sys.glob('~/mlmeta*sas')), 0)
