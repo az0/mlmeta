@@ -38,25 +38,33 @@ x "cd %sysget(TMP)";
 %mend;
 %setwd;
 
+
+%macro test_bagEarth(code);
+* Remove any data from the last macro call.;
+proc datasets lib=work noprint;
+	delete &code;
+run;
+
 * Import data from R.;
 proc import
-	datafile="mlmeta_bagEarth_reg.csv"
-	out=bagEarth
+	datafile="mlmeta_&code..csv"
+	out=&code
 	dbms=csv
 	replace;
 run;
+%if &syserr ne 0 %then %abort cancel;
 
 * This is analogous to predict() in R.;
-data bagEarth;
-	set bagEarth;
-	%include "mlmeta_bagEarth_reg.sas" / nosource nosource2 lrecl=100000;
-run;      
+data &code;
+	set &code;
+	%include "mlmeta_&code..sas" / nosource nosource2 lrecl=100000;
+run;
+%if &syserr ne 0 %then %abort cancel;
 
 
 * Check that both the individual earth and final prediction match.;
-%macro check;
-data bagEarth;
-	set bagEarth;
+data &code;
+	set &code;
 	%do i = 1 %to &B;
 		diff_pred_&i = abs(r_pred_&i - prediction_&i);
 		if diff_pred_&i > &max_diff then put 'ERROR: ' _N_= diff_pred_&i=;
@@ -64,10 +72,13 @@ data bagEarth;
 	diff_pred_all = abs(prediction - r_pred_all);
 	if diff_pred_all > &max_diff then put 'ERROR: ' _N_= diff_pred_all=;
 run;
-%mend;
-%check;
 
 * Show the largest differences first.;
-proc sort data=bagEarth;
+proc sort data=&code;
 	by descending diff_pred_all;
 run;
+
+%mend;
+
+%test_bagEarth(bagEarth_reg);
+%test_bagEarth(bagEarth_class);

@@ -17,9 +17,16 @@ It may be the object returned by \code{\link[caret]{train}}.}
 \description{
 Generate SAS DATA step code to predict the values of a bagged Multivariate
 Adaptive Regression Splines (MARS) model from the \pkg{caret} package.
-This function supports only regression with numeric variables, so any
-factors must fist be converted to numeric variables (as
-\code{\link[caret]{train}} normally does).
+}
+\details{
+This function supports regression and binary classification (when
+\code{\link[earth]{earth}} is called with \code{glm=list(family=binomial)}.
+
+This function supports only numeric variables, so any factors must first be
+converted to numeric variables (as \code{\link[caret]{train}} normally does).
+
+In the case of binary classification, the predicted values are probabilities
+(not log-odds).
 }
 \examples{
 require(caret)

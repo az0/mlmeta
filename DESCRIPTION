@@ -16,6 +16,7 @@ Depends:
 URL: https://github.com/az0/mlmeta
 Suggests:
     caret,
+    class,
     earth,
     gbm,
     nnet,

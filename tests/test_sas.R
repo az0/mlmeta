@@ -99,8 +99,12 @@ test_bagEarth_predict <- function (fit, newdata) {
     r_pred_all <- predict(fit, newdata=newdata)
 
     # individual earth predictions
+    if ('factor' == class(newdata$Y))
+        type = 'response'
+    else if ('numeric' == class(newdata$Y))
+        type = 'link'
     r_pred_individual <- as.data.frame(sapply(1:B,
-        function(n) predict(fit$fit[[n]], newdata=newdata)))
+        function(n) predict(fit$fit[[n]], newdata=newdata, type=type)))
     names(r_pred_individual) <- paste0('r_pred_',1:B)
 
     data.frame(r_pred_all, r_pred_individual)
@@ -109,9 +113,19 @@ test_bagEarth_predict <- function (fit, newdata) {
 # regression with no factors and no missing values
 test_foo2sas('bagEarth_reg', 'caret',
     function() { simulate_regression_data(unordered_factor = FALSE, ordered_factor = FALSE, p_missing = 0) },
-    function(data) { caret::bagEarth(Y ~ ., data = data, B = B) },
+    function(data) { caret::bagEarth(Y ~ ., data=data, B=B) },
     function(fit) { bagEarth2sas(fit, drop = FALSE) },
     test_bagEarth_predict)
+
+# classification
+library(class)
+test_foo2sas('bagEarth_class', 'caret',
+    simulate_classification_data,
+    function(data) { caret::bagEarth(Y ~ ., data=data, B=B, glm=list(family=binomial)) },
+    function(fit) { bagEarth2sas(fit, drop = FALSE) },
+    test_bagEarth_predict)
+
+
 
 ###
 ### test cforest
