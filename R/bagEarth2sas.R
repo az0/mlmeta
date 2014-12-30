@@ -28,6 +28,7 @@
 #' \code{\link[caret]{train}} normally does).
 #'
 #' @param fit a bagged MARS model trained by \code{\link[caret]{bagEarth}}.
+#'  It may be the object returned by \code{\link[caret]{train}}.
 #' @param name the name of the variable in which to store the prediction
 #' @param drop whether to drop the variables for the individual trees
 #' @export

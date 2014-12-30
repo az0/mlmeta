@@ -7,7 +7,8 @@
 bagEarth2sas(fit, name = "prediction", drop = TRUE)
 }
 \arguments{
-\item{fit}{a bagged MARS model trained by \code{\link[caret]{bagEarth}}.}
+\item{fit}{a bagged MARS model trained by \code{\link[caret]{bagEarth}}.
+It may be the object returned by \code{\link[caret]{train}}.}
 
 \item{name}{the name of the variable in which to store the prediction}
 
