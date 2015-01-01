@@ -25,7 +25,7 @@
 #'
 #' This function supports regression and binary classification (when
 #' \code{\link[earth]{earth}} is called with \code{glm=list(family=binomial)}.
-#' 
+#'
 #' This function supports only numeric variables, so any factors must first be
 #' converted to numeric variables (as \code{\link[caret]{train}} normally does).
 #'

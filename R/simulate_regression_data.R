@@ -39,11 +39,11 @@ simulate_regression_data <- function(n = 1000,
         X5 <- rnorm(n)
         X6 <- rlnorm(n)
     }
-    X7 <- 3*runif(n) 
+    X7 <- 3*runif(n)
 
     # true regression equation
     Y.nonoise <- 2 + X1 + X2**1.5 + X3.a + X3.b + X4.numeric
-    
+
     # add noise
     SNR <- 10 # signal-to-noise ratio
     sigma <- sqrt(var(Y.nonoise)/SNR)

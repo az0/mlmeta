@@ -51,7 +51,7 @@ data gbm2;
 	set gbm;
 	%include "mlmeta_gbm_reg.sas" /nosource nosource2 lrecl=100000;
 	sas_pred_all = gbm;
-run;      
+run;
 
 * Check that both the individual trees and final prediction match.;
 %macro check;

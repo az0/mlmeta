@@ -47,7 +47,7 @@ run;
 data ctree;
 	set ctree;
 	%include "mlmeta_ctree_reg.sas" / nosource nosource2 lrecl=100000;
-run;      
+run;
 
 data ctree;
 	set ctree;

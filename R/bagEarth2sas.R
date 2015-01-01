@@ -52,7 +52,7 @@ bagEarth2sas <- function(fit, name = 'prediction', drop = TRUE)
         stop('fit must be of type bagEarth')
 
     B <- length(fit$fit)
-    
+
     # regression
     if (1 == length(fit$levels) & is.na(fit$levels[1]))
         type = 'link'

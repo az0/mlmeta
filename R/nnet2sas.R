@@ -21,7 +21,7 @@
 #' Generates SAS DATA step code to predict the values of an artificial
 #' neural network.
 #'
-#' @param fit a neural network fitted by \code{\link[nnet]{nnet}} or 
+#' @param fit a neural network fitted by \code{\link[nnet]{nnet}} or
 #'   \code{\link[caret]{train}} with \code{method="nnet"}
 #' @export
 #' @examples

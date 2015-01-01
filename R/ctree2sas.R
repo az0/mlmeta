@@ -115,16 +115,16 @@ ctree2sas <- function(mytree, name = 'prediction', node_id = 1, parent_criteria 
             new_criteria <- btree_criteria(mytree, node_id, F)
         ret <- paste(ret, ctree2sas(mytree, name=name, node_id=right_node_id, parent_criteria=new_criteria), sep='\n')
     }
-    
+
     if (1 == node_id) {
         # remove the very first 'else '
         ret <- substr(ret, 6, nchar(ret))
-        
+
         # add general information
         ret <- paste("/* ctree2sas(), ", R.Version()$version.string, ", party version ", installed.packages()["party",
             "Version"], " */\n", ret, sep = "")
     }
-    
+
     # return
     return(ret)
 }
