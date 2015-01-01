@@ -1,3 +1,5 @@
 ^\.gitignore$
 ^cran-comments\.md$
 ^LICENSE$
+^\.travis\.yml$
+
