@@ -1,5 +1,7 @@
 language: r
 
+sudo: required
+
 env:
    matrix:
      - NOT_CRAN="true"
