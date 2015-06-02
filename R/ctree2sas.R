@@ -1,6 +1,6 @@
 # Machine Learning Metaprogramming for R
 # by Andrew Ziem
-# Copyright (c) 2011 Compassion International
+# Copyright (c) 2011, 2014, 2015 Compassion International
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,11 +33,18 @@ btree_right <- function(mytree, parent_id)
 btree_prediction <- function(mytree, node_id)
 {
     p <- party::nodes(mytree, node_id)[[1]]$prediction
+    if (length(p) > 2) {
+		# For multinomial classification, return the name of the most
+        # likely level.
+        index_most_likely_level <- which.max(nodes(mytree,node_id)[[1]]$prediction)
+        return(levels(response(mytree)[[1]])[index_most_likely_level])
+    }
     if (2 == length(p)) {
+		# For binary classification, return the probability.
         return(p[2])
     }
+    # For regression, return the average value.
     return (p)
-
 }
 
 # criteria for this node as a string
@@ -75,8 +82,12 @@ btree_criteria <- function(mytree, node_id, left)
 #' Generate SAS DATA step code to predict the values of a conditional inference tree
 #' from the \pkg{party} package.
 #'
-#' Unordered factors are supported, while ordered factors and missing values are
-#' not supported.
+#' For regression, the prediction is the average for the node. For binary classification,
+#' the probability is given. For multinomial classification, the most likely level is
+#' returned.
+#'
+#' Models may be built with inputs variables that are either numeric or unordered factors,
+#' while ordered factors and missing values are not supported.
 #'
 #' @param mytree a decision tree model trained by \code{\link[party]{ctree}}
 #' @param name the name of the variable in which to store the prediction
@@ -92,8 +103,12 @@ ctree2sas <- function(mytree, name = 'prediction', node_id = 1, parent_criteria 
 {
     require(party)
     if (party::nodes(mytree, node_id)[[1]]$terminal) {
-        ret <- btree_prediction(mytree, node_id)
-        ret <- paste('else if', parent_criteria, 'then', name,'=',ret,'; /* node',node_id,'*/')
+        node_prediction <- btree_prediction(mytree, node_id)
+		# If multinomial classification, the prediction has a character type.
+		if (length(levels(response(mytree)[[1]])) > 2){
+			node_prediction <- paste("'", node_prediction, "'", sep='')
+		}
+        ret <- paste('else if', parent_criteria, 'then', name,'=',node_prediction,'; /* node',node_id,'*/')
         return (ret)
     }
 
