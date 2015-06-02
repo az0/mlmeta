@@ -1,6 +1,6 @@
 # Machine Learning Metaprogramming for R
 # by Andrew Ziem
-# Copyright (c) 2014 Compassion International
+# Copyright (c) 2014, 2015 Compassion International
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -151,6 +151,12 @@ test_foo2sas('ctree_reg', 'party',
     ctree2sas,
     function(fit, newdata) { as.numeric(predict(fit)) })
 
+# binary classification
+test_foo2sas('ctree_binary', 'party',
+    simulate_classification_data,
+    function(data) { party::ctree(Y ~ ., data = data, controls = ctree_control(mincriterion = 0)) },
+    ctree2sas,
+    function(fit, newdata) { 1- unlist(treeresponse(fit, newdata), use.names=F)[seq(1,nrow(newdata)*2,2)] } )
 
 
 ###

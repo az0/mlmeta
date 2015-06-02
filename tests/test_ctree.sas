@@ -3,7 +3,7 @@
 Machine Learning Metaprogramming for R
 Check that ctree gives the same values in R and SAS.
 by Andrew Ziem
-Copyright (c) 2014 Compassion International
+Copyright (c) 2014, 2015 Compassion International
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,22 +35,24 @@ x "cd %sysget(TMP)";
 %mend;
 %setwd;
 
+%macro test_ctree(suffix);
 * Import data from R.;
 proc import
-	datafile="mlmeta_ctree_reg.csv"
-	out=ctree
+	datafile="mlmeta_ctree_&suffix..csv"
+	out=ctree_&suffix.
 	dbms=csv
 	replace;
 run;
 
 * This is analogous to predict() in R.;
-data ctree;
-	set ctree;
-	%include "mlmeta_ctree_reg.sas" / nosource nosource2 lrecl=100000;
+data ctree_&suffix.;
+	set ctree_&suffix.;
+	%include "mlmeta_ctree_&suffix..sas" / nosource nosource2 lrecl=100000;
 run;
+%if &syserr ne 0 %then %abort cancel;
 
-data ctree;
-	set ctree;
+data ctree_&suffix.;
+	set ctree_&suffix.;
 	if not missing(prediction) then do;
 		difference_prediction = abs(prediction - pred);
 		if difference_prediction > &max_diff then put 'ERROR: ' _N_= difference_prediction=;
@@ -59,8 +61,14 @@ data ctree;
 		put 'WARNING: missing prediction ' _N_;
 	N = _N_;
 run;
+%if &syserr ne 0 %then %abort cancel;
 
 * Show the largest differences first.;
-proc sort data=ctree;
+proc sort data=ctree_&suffix.;
 	by descending difference_prediction;
 run;
+%mend;
+
+%test_ctree(reg);
+%test_ctree(binary);
+
