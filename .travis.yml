@@ -3,6 +3,9 @@ language: r
 sudo: required
 
 env:
+   global:
+     - r_build_args="--no-build-vignettes --no-manual"
+     - r_check_args="--no-build-vignettes --no-manual --as-cran"
    matrix:
      - NOT_CRAN="true"
      - NOT_CRAN="false"
