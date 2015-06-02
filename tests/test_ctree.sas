@@ -1,7 +1,7 @@
 /*
 
 Machine Learning Metaprogramming for R
-Check that gbm gives the same values in R and SAS.
+Check that ctree gives the same values in R and SAS.
 by Andrew Ziem
 Copyright (c) 2014 Compassion International
 

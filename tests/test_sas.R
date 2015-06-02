@@ -17,8 +17,10 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-# Create a model and data to check that gbm gives the same
-# values in R and SAS.
+# Create a model and data to check that the original R functions
+# and the mlmeta functions return the same values in R and SAS.
+
+# This script tests multiple kinds of models.
 
 library(mlmeta)
 library(testthat)
@@ -142,6 +144,7 @@ test_foo2sas('cforest_reg', 'party',
 ###
 
 
+# regression
 test_foo2sas('ctree_reg', 'party',
     function() { simulate_regression_data(unordered_factor = TRUE, ordered_factor = FALSE, p_missing = 0) },
     function(data) { party::ctree(Y ~ ., data = data, controls = ctree_control(mincriterion = 0)) },
