@@ -36,8 +36,8 @@ btree_prediction <- function(mytree, node_id)
     if (length(p) > 2) {
         # For multinomial classification, return the name of the most
         # likely level.
-        index_most_likely_level <- which.max(nodes(mytree,node_id)[[1]]$prediction)
-        return(levels(response(mytree)[[1]])[index_most_likely_level])
+        index_most_likely_level <- which.max(party::nodes(mytree,node_id)[[1]]$prediction)
+        return(levels(party::response(mytree)[[1]])[index_most_likely_level])
     }
     if (2 == length(p)) {
         # For binary classification, return the probability.
@@ -105,7 +105,7 @@ ctree2sas <- function(mytree, name = 'prediction', node_id = 1, parent_criteria 
     if (party::nodes(mytree, node_id)[[1]]$terminal) {
         node_prediction <- btree_prediction(mytree, node_id)
         # If multinomial classification, the prediction has a character type.
-        if (length(levels(response(mytree)[[1]])) > 2){
+        if (length(levels(party::response(mytree)[[1]])) > 2){
             node_prediction <- paste("'", node_prediction, "'", sep='')
         }
         ret <- paste('else if', parent_criteria, 'then', name,'=',node_prediction,'; /* node',node_id,'*/')

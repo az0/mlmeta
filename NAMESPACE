@@ -5,3 +5,7 @@ export(earth2sas)
 export(gbm2sas)
 export(nnet2sas)
 export(simulate_regression_data)
+importFrom("methods", "is", "new")
+importFrom("stats", "rlnorm", "rnorm", "runif", "var")
+importFrom("utils", "installed.packages")
+
