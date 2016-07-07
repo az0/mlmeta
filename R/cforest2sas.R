@@ -1,6 +1,6 @@
 # Machine Learning Metaprogramming for R
 # by Andrew Ziem
-# Copyright (c) 2014 Compassion International
+# Copyright (c) 2014, 2016 Compassion International
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@
 #' cat(iris.sas, file="iris.sas")
 cforest2sas <- function(fit, name = 'prediction', drop = TRUE)
 {
-    require(party)
+    if (!requireNamespace('party')) stop('the party package is required for function cforest2sas()')
     if (!isS4(fit)) stop('fit must be an S4 object')
     if (!is(fit, 'RandomForest')) stop('fit must be a RandomForest')
     n.trees <- length(fit@ensemble)

@@ -1,6 +1,6 @@
 # Machine Learning Metaprogramming for R
 # by Andrew Ziem
-# Copyright (c) 2011, 2014, 2015 Compassion International
+# Copyright (c) 2011, 2014-2016 Compassion International
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -101,7 +101,7 @@ btree_criteria <- function(mytree, node_id, left)
 #' cat(iris.sas, file="iris.sas")
 ctree2sas <- function(mytree, name = 'prediction', node_id = 1, parent_criteria = character(0))
 {
-    require(party)
+    if (!requireNamespace('party')) stop('the party package is required for function ctree2sas()')
     if (party::nodes(mytree, node_id)[[1]]$terminal) {
         node_prediction <- btree_prediction(mytree, node_id)
         # If multinomial classification, the prediction has a character type.

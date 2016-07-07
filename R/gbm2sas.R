@@ -135,6 +135,7 @@ gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 
 gbm2sas <- function(fit, n.trees = fit$n.trees, drop = TRUE) {
     # Sanity checks
+    if (!requireNamespace('gbm')) stop('the gbm package is required for function gbm2sas()')
     stopifnot("gbm" == class(fit))
     data.classes <- attr(fit$Terms, "dataClasses")
     if (is.null(fit$initF))
@@ -171,7 +172,6 @@ gbm2sas <- function(fit, n.trees = fit$n.trees, drop = TRUE) {
     ret <- paste(ret, "\n")
 
     # Loop through trees
-    require(gbm)
     for (tree.n in c(1:n.trees)) {
         this.tree <- gbm2sas.descend(fit, tree.n)
         this.tree <- substr(this.tree, 6, nchar(this.tree))  # remove the very first 'else'

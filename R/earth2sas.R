@@ -1,6 +1,6 @@
 # Machine Learning Metaprogramming for R
 # by Andrew Ziem
-# Copyright (c) 2014 Compassion International
+# Copyright (c) 2014, 2016 Compassion International
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,13 +44,14 @@
 #' cat(trees.sas, file="trees.sas")
 earth2sas <- function(fit, name='prediction', type='link')
 {
+    if (!requireNamespace('earth')) stop('the earth package is required for function earth2sas()')
+
     if (inherits(fit, 'train'))
         # tuned using the caret package
         fit <- fit$finalModel
     if (!inherits(fit, 'earth'))
         stop('fit must be of type earth')
 
-    require(earth)
     ret <- paste(name, ' = ', format(fit, style="max", digits=15), ';\n')
     if ('response' == type)
         ret <- paste(ret, name, '= 1/(1+exp(min(max(-(',name,'),-500),500)));\n', sep='')
