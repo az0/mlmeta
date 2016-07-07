@@ -19,97 +19,97 @@
 # Recursively descend the tree.  For internal use.
 gbm2sas.descend <- function(fit, tree.n, this.node_id = 0, parent.criteria='')
 {
-	# sanity checks
-	stopifnot('gbm' == class(fit))
-	stopifnot(tree.n > 0)
-	stopifnot(tree.n <= fit$n.trees)
-	stopifnot(this.node_id >= 0)
-	stopifnot(is.character(parent.criteria))
+    # sanity checks
+    stopifnot('gbm' == class(fit))
+    stopifnot(tree.n > 0)
+    stopifnot(tree.n <= fit$n.trees)
+    stopifnot(this.node_id >= 0)
+    stopifnot(is.character(parent.criteria))
 
-	# the splitting rule
-	split.rule <- gbm::pretty.gbm.tree(fit, i.tree = tree.n)[this.node_id+1,]
-	stopifnot(is.data.frame(split.rule))
-	stopifnot(dim(split.rule) ==c(1,8))
+    # the splitting rule
+    split.rule <- gbm::pretty.gbm.tree(fit, i.tree = tree.n)[this.node_id+1,]
+    stopifnot(is.data.frame(split.rule))
+    stopifnot(dim(split.rule) ==c(1,8))
 
-	# child nodes
-	left.node.id <- split.rule[,'LeftNode']
-	right.node.id <- split.rule[,'RightNode']
-	missing.node.id <- split.rule[,'MissingNode']
+    # child nodes
+    left.node.id <- split.rule[,'LeftNode']
+    right.node.id <- split.rule[,'RightNode']
+    missing.node.id <- split.rule[,'MissingNode']
 
-	# more sanity checks
-	if (-1 == split.rule[,'SplitVar'] && -1 != left.node.id) stop('SplitVar -1 but LeftNode is not')
-	if (-1 == left.node.id && -1 != right.node.id) stop('LeftNode -1 but RightNode is not')
-	if (-1 != left.node.id && -1 == right.node.id) stop('LeftNode not -1 but RightNode is')
+    # more sanity checks
+    if (-1 == split.rule[,'SplitVar'] && -1 != left.node.id) stop('SplitVar -1 but LeftNode is not')
+    if (-1 == left.node.id && -1 != right.node.id) stop('LeftNode -1 but RightNode is not')
+    if (-1 != left.node.id && -1 == right.node.id) stop('LeftNode not -1 but RightNode is')
 
-	# Is this a terminal node?
-	if (-1 == split.rule[,'SplitVar']) {
-		# This a terminal node, so make a prediction
-		return(paste('else if', parent.criteria, ' then ',paste('gbm',tree.n,sep=''), ' = ', split.rule[,'Prediction'], '; /* terminal node ',this.node_id,' */\n',sep=''))
-	} else {
-		# This is not a terminal node
+    # Is this a terminal node?
+    if (-1 == split.rule[,'SplitVar']) {
+        # This a terminal node, so make a prediction
+        return(paste('else if', parent.criteria, ' then ',paste('gbm',tree.n,sep=''), ' = ', split.rule[,'Prediction'], '; /* terminal node ',this.node_id,' */\n',sep=''))
+    } else {
+        # This is not a terminal node
 
-		# find the name of the splitting variable
-		# SplitVar is zero based, so add 1
-		# split.var <- attr(fit$Terms,'term.labels')[split.rule[,'SplitVar']+1]
-		split.var <- fit$var.names[split.rule[,'SplitVar']+1]
+        # find the name of the splitting variable
+        # SplitVar is zero based, so add 1
+        # split.var <- attr(fit$Terms,'term.labels')[split.rule[,'SplitVar']+1]
+        split.var <- fit$var.names[split.rule[,'SplitVar']+1]
 
-		# the data type for the splitting variable
-		# This vector starts with the dependent variable.
-		if (is.null(fit$Terms))
-		{
-			# Without GBM formula interface, there are no factors.
-			data.class <- 'numeric'
-		}
-		else
-		{
-			# With GBM formula interface, there are factors.
-			data.class <- attr(fit$Terms,'dataClasses')[split.rule[,'SplitVar']+2]
-		}
+        # the data type for the splitting variable
+        # This vector starts with the dependent variable.
+        if (is.null(fit$Terms))
+        {
+            # Without GBM formula interface, there are no factors.
+            data.class <- 'numeric'
+        }
+        else
+        {
+            # With GBM formula interface, there are factors.
+            data.class <- attr(fit$Terms,'dataClasses')[split.rule[,'SplitVar']+2]
+        }
 
 
-		# splitting conditions for this level
-		split.code.pred <- split.rule[,'SplitCodePred']
-		if ('numeric' == data.class) {
-			# SAS evaluates missing value "x" in "x < y" as true
-			left.condition <- paste('not missing(',split.var,') and ',split.var, '<', split.code.pred)
-			right.condition <- paste(split.var, '>=', split.code.pred)
-		} else if ('factor' == data.class) {
-			var.levels <- fit$var.levels[[split.rule[,'SplitVar'] + 1]]
-			c.splits <- fit$c.splits[[split.code.pred + 1]]
-			left.levels <- var.levels[c.splits == -1]
-			right.levels <- var.levels[c.splits == 1]
-			left.condition <- paste(split.var, ' in (\'', paste(left.levels, collapse="', '"), '\')', sep='')
-			right.condition <- paste(split.var, ' in (\'', paste(right.levels, collapse="','"), '\')', sep='')
-		} else if ('ordered' == data.class) {
-			var.levels <- fit$var.levels[[split.rule[,'SplitVar'] + 1]] # all the variable levels
-			var.levels.left <- paste(var.levels[1:length(var.levels) < (split.code.pred +1)], collapse="','") # levels included in the left split
-			var.levels.right <- paste(var.levels[1:length(var.levels) > (split.code.pred + 1)], collapse="','") # levels included in the right split
-			left.condition <- paste(split.var, ' in (\'', var.levels.left, '\')', sep='')
-			right.condition <- paste(split.var, ' in (\'', var.levels.right, '\')', sep='')
-		} else {
-			# FIXME: support logical
-			stop(paste('unsupported data class:', data.class))
-		}
-		missing.condition <- paste('missing(',split.var,')')
+        # splitting conditions for this level
+        split.code.pred <- split.rule[,'SplitCodePred']
+        if ('numeric' == data.class) {
+            # SAS evaluates missing value "x" in "x < y" as true
+            left.condition <- paste('not missing(',split.var,') and ',split.var, '<', split.code.pred)
+            right.condition <- paste(split.var, '>=', split.code.pred)
+        } else if ('factor' == data.class) {
+            var.levels <- fit$var.levels[[split.rule[,'SplitVar'] + 1]]
+            c.splits <- fit$c.splits[[split.code.pred + 1]]
+            left.levels <- var.levels[c.splits == -1]
+            right.levels <- var.levels[c.splits == 1]
+            left.condition <- paste(split.var, ' in (\'', paste(left.levels, collapse="', '"), '\')', sep='')
+            right.condition <- paste(split.var, ' in (\'', paste(right.levels, collapse="','"), '\')', sep='')
+        } else if ('ordered' == data.class) {
+            var.levels <- fit$var.levels[[split.rule[,'SplitVar'] + 1]] # all the variable levels
+            var.levels.left <- paste(var.levels[1:length(var.levels) < (split.code.pred +1)], collapse="','") # levels included in the left split
+            var.levels.right <- paste(var.levels[1:length(var.levels) > (split.code.pred + 1)], collapse="','") # levels included in the right split
+            left.condition <- paste(split.var, ' in (\'', var.levels.left, '\')', sep='')
+            right.condition <- paste(split.var, ' in (\'', var.levels.right, '\')', sep='')
+        } else {
+            # FIXME: support logical
+            stop(paste('unsupported data class:', data.class))
+        }
+        missing.condition <- paste('missing(',split.var,')')
 
-		# separator differs for first level
-		my.sep <- ifelse(0 == this.node_id, ' ', ' and ')
+        # separator differs for first level
+        my.sep <- ifelse(0 == this.node_id, ' ', ' and ')
 
-		# descend to left
-		left.criteria <- paste(parent.criteria, left.condition, sep=my.sep)
-		left.expanded <- gbm2sas.descend(fit, tree.n, left.node.id, left.criteria)
+        # descend to left
+        left.criteria <- paste(parent.criteria, left.condition, sep=my.sep)
+        left.expanded <- gbm2sas.descend(fit, tree.n, left.node.id, left.criteria)
 
-		# descend missing
-		missing.criteria <- paste(parent.criteria, missing.condition, sep=my.sep)
-		missing.expanded <-  gbm2sas.descend(fit, tree.n, missing.node.id, missing.criteria)
+        # descend missing
+        missing.criteria <- paste(parent.criteria, missing.condition, sep=my.sep)
+        missing.expanded <-  gbm2sas.descend(fit, tree.n, missing.node.id, missing.criteria)
 
-		# descend to right node
-		right.criteria <- paste(parent.criteria, right.condition, sep=my.sep)
-		right.expanded <-  gbm2sas.descend(fit, tree.n, right.node.id, right.criteria)
+        # descend to right node
+        right.criteria <- paste(parent.criteria, right.condition, sep=my.sep)
+        right.expanded <-  gbm2sas.descend(fit, tree.n, right.node.id, right.criteria)
 
-		# combine
-		return (paste(left.expanded, missing.expanded, right.expanded, sep=''))
-	}
+        # combine
+        return (paste(left.expanded, missing.expanded, right.expanded, sep=''))
+    }
 }
 
 
