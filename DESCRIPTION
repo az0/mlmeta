@@ -6,8 +6,8 @@ Date: 2014-12-26
 Author: Andrew Ziem
 Copyright: Compassion International
 Maintainer: Andrew Ziem <ahz001@gmail.com>
-Description: Generates Base SAS code to score models learned in R.  Supports
-    artificial neural networks, bagged MARS, conditional inference trees,  random
+Description: Generates Base SAS code to score models learned in R. Supports
+    artificial neural networks, bagged MARS, conditional inference trees, random
     forests, gradient boosting regression models, and multivariate adaptive
     regression splines (MARS). The SAS code often runs faster than R, uses less
     memory, and does not require SAS/STAT or SAS/IML.
@@ -27,3 +27,4 @@ License: GPL (>= 2)
 NeedsCompilation: no
 Repository: CRAN
 BugReports: https://github.com/az0/mlmeta/issues
+RoxygenNote: 5.0.1
